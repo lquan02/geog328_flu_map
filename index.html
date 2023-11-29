@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Interactive COVID-19 Mapping</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+
+    <!-- Including the Mapbox GL CSS file -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
+
+    <!-- Including the Mapbox GL JS file -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
+
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script>
+        // Initialize Mapbox GL map
+        mapboxgl.accessToken = 'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpcms2YWsyMzAwMmtmbG5icTFxZ3ZkdncifQ.P9MBej1xacybKcDN_jehvw';
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/navigation-day-v1',
+            zoom: 3.8,
+            center: [-100, 40]
+        });
+
+        // Load GeoJSON data and add as an overlay
+        map.on('load', async function () {
+            let response = await fetch('assets/flu_state_data_2022.geojson');
+            let us_flu = await response.json();
+
+            map.addSource('us_flu', {
+                type: 'geojson',
+                data: us_flu
+            });
+
+            map.addLayer({
+                'id': 'us_flu_layer',
+                'type': 'fill',
+                'source': 'us_flu',
+                'paint': {
+                    'fill-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'SPECIMENS'],
+                        0, 'rgba(255, 0, 0, 0.7)', // Replace with your desired color for 0 SPECIMENS
+                        100, 'rgba(255, 0, 0, 0.7)',  // Replace with your desired color for 100 SPECIMENS
+                        // Add more breakpoints as needed
+                    ],
+                    'fill-opacity': 1,
+                    'fill-outline-color': '#BBBBBB'
+                }
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>
+
+
+
+
