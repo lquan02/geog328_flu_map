@@ -9,6 +9,8 @@ const map = new mapboxgl.Map({
     center: [-120.6167337421042, 47.37496695075868] // starting center
 });
 
+// map.addControl(new mapboxgl.NavigationControl());
+
 
 // Declare a variable to store the state data
 let weekly_data;
@@ -128,7 +130,7 @@ function resizeCanvas() {
         button.innerHTML = '<i class="fa fa-compress"></i>';
         button.className = "compress";
     } else {
-        chartContainer.style.width = '500px';
+        chartContainer.style.width = '400px';
         button.innerHTML = '<i class="fa fa-expand"></i>';
         button.className = "expand";
     }
@@ -159,26 +161,26 @@ async function geojsonFetch() {
                     
                     ['get', 'PERCENT_POSITIVE'],  // get the density attribute from the data
                     
-                    '#FFEDA0',   // use color #FFEDA0
-                    5,          // if density < 10
+                    '#888888',   // use color #FFEDA0
+                    0.01,          // if density < 10
                     
                     '#FED976',   // use color #FED976
-                    10,          // if 10 <= density < 20
+                    5,          // if 10 <= density < 20
                     
                     '#FEB24C',   // use color #FEB24C
-                    15,          // if 20 <= density < 50
+                    10,          // if 20 <= density < 50
                     
                     '#FD8D3C',   // use color #FD8D3C
-                    20,         // if 50 <= density < 100
+                    15,         // if 50 <= density < 100
                     
                     '#FC4E2A',   // use color #FC4E2A
-                    25,         // if 100 <= density < 200
+                    20,         // if 100 <= density < 200
                     
                     '#E31A1C',   // use color #E31A1C
-                    30,         // if 200 <= density < 500
+                    25,         // if 200 <= density < 500
                     
                     '#BD0026',   // use color #BD0026
-                    35,        // if 500 <= density < 1000
+                    30,        // if 500 <= density < 1000
                     
                     "#800026"    // use color #800026 if 1000 <= density
                 ],
@@ -188,17 +190,17 @@ async function geojsonFetch() {
         });
 
         const layers = [
-            '0-9',
-            '10-19',
-            '20-49',
-            '50-99',
-            '100-199',
-            '200-499',
-            '500-999',
-            '1000 and more'
+            '0 or N/A',
+            'Less than 5',
+            '5-10',
+            '10-15',
+            '15-20',
+            '20-25',
+            '25-30',
+            '30 and more'
         ];
         const colors = [
-            '#FFEDA070',
+            '#888888',
             '#FED97670',
             '#FEB24C70',
             '#FD8D3C70',
@@ -210,7 +212,7 @@ async function geojsonFetch() {
 
         // create legend
         const legend = document.getElementById('legend');
-        legend.innerHTML = "<b>Population Density<br>(people/sq.mi.)</b><br><br>";
+        legend.innerHTML = "<b>Percent Positive<br></b>(Both Type A and Type B)<br>";
 
 
         layers.forEach((layer, i) => {
@@ -233,12 +235,9 @@ async function geojsonFetch() {
             layers: ['state_data_layer']
         });
         document.getElementById('text-description').innerHTML = state.length ?
-            `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.PERCENT_POSITIVE}</strong> people per square mile</em></p>` :
+            `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.PERCENT_POSITIVE}%</strong> positive</em></p>` :
             `<p>Hover over a state!</p>`;
     });
-        // const stateName = state[0].properties.STATE;
-        // Show the line chart pop-up for the clicked state
-        // showLineChartPopup(stateName);
 
     // Event listener for a click on the map
     map.on('click', 'state_data_layer', (event) => {
