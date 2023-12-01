@@ -150,28 +150,25 @@ async function geojsonFetch() {
                 'fill-color': [
                     'step',      // use step expression to provide fill color based on values
                     
-                    ['get', 'PERCENT_POSITIVE'],  // get the density attribute from the data
+                    ['+', ['get', 'TOTAL_A'], ['get', 'TOTAL_B']],  // get the density attribute from the data
                     
                     '#888888',   // use color #FFEDA0
                     0.01,          // if density < 10
                     
                     '#FED976',   // use color #FED976
-                    5,          // if 10 <= density < 20
+                    1000,          // if 10 <= density < 20
                     
                     '#FEB24C',   // use color #FEB24C
-                    10,          // if 20 <= density < 50
+                    5000,          // if 20 <= density < 50
                     
                     '#FD8D3C',   // use color #FD8D3C
-                    15,         // if 50 <= density < 100
+                    10000,         // if 50 <= density < 100
                     
                     '#FC4E2A',   // use color #FC4E2A
-                    20,         // if 100 <= density < 200
+                    20000,         // if 100 <= density < 200
                     
                     '#E31A1C',   // use color #E31A1C
-                    25,         // if 200 <= density < 500
-                    
-                    '#BD0026',   // use color #BD0026
-                    30,        // if 500 <= density < 1000
+                    50000,         // if 200 <= density < 500
                     
                     "#800026"    // use color #800026 if 1000 <= density
                 ],
@@ -180,15 +177,15 @@ async function geojsonFetch() {
             }
         });
 
+    
         const layers = [
             '0 or N/A',
-            'Less than 5',
-            '5-10',
-            '10-15',
-            '15-20',
-            '20-25',
-            '25-30',
-            '30 and more'
+            'Less than 1000',
+            '1,000-5,000',
+            '5,000-10,000',
+            '10,000-20,000',
+            '20,000-50,000',
+            '50,000+'
         ];
         const colors = [
             '#888888',
@@ -197,13 +194,12 @@ async function geojsonFetch() {
             '#FD8D3C70',
             '#FC4E2A70',
             '#E31A1C70',
-            '#BD002670',
             '#80002670'
         ];
 
         // create legend
         const legend = document.getElementById('legend');
-        legend.innerHTML = "<b>Percent Positive<br></b>(Both Type A and Type B)<br>";
+        legend.innerHTML = "<b>Total Positive Cases<br></b>(Both Type A and Type B)<br>";
 
         layers.forEach((layer, i) => {
             const color = colors[i];
@@ -237,7 +233,7 @@ async function geojsonFetch() {
         });
         if (state.length) {
             // If a state is clicked, show information for that state
-            document.getElementById('text-description').innerHTML = `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.PERCENT_POSITIVE}%</strong> positive</em></p>`;
+            document.getElementById('text-description').innerHTML = `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.TOTAL_A + state[0].properties.TOTAL_B}</strong> positive cases</em></p>`;
             showLineChartPopup(state[0].properties.STATE);
         } else {
             // If clicked outside of a state, show national data
