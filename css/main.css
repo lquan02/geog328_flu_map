@@ -19,7 +19,6 @@ p {
     margin: 10px;
 }
 
-
 .navbar {
     display: block;
     top: 0;
@@ -94,13 +93,11 @@ p {
     padding: 5px;
 }
 
-
 #features {
     top: 0;
     height: 100px;
     margin-top: 20px;
     width: 270px;
-    height: max-content;
 }
 
 #legend {
