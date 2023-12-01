@@ -5,7 +5,7 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v10', // style URL
-    zoom: 2, // starting zoom
+    zoom: 3, // starting zoom
     center: [-120.6167337421042, 47.37496695075868] // starting center
 });
 
@@ -55,7 +55,6 @@ function showLineChartPopup(stateName) {
         yData_B[i] = weekly_data[stateName][key]['TOTAL_B'];
         i++;
       }
-    
     
     const ctx = document.getElementById('line-chart').getContext('2d');
     if (window.myLineChart) {
@@ -179,7 +178,6 @@ async function geojsonFetch() {
                 'fill-opacity': 0.7,
             }
         });
-
         const layers = [
             '0 or N/A',
             'Less than 5',
@@ -200,7 +198,6 @@ async function geojsonFetch() {
             '#BD002670',
             '#80002670'
         ];
-
         // create legend
         const legend = document.getElementById('legend');
         legend.innerHTML = "<b>Percent Positive<br></b>(Both Type A and Type B)<br>";
@@ -219,7 +216,6 @@ async function geojsonFetch() {
             legend.appendChild(item);
         });
     });
-
     map.on('mousemove', ({point}) => {
         const state = map.queryRenderedFeatures(point, {
             layers: ['state_data_layer']
@@ -228,7 +224,6 @@ async function geojsonFetch() {
             `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.PERCENT_POSITIVE}%</strong> positive</em></p>` :
             `<p>Hover over a state!</p>`;
     });
-
     // Event listener for a click on the map
     map.on('click', 'state_data_layer', (event) => {
         const stateName = event.features[0].properties.STATE;

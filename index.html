@@ -21,28 +21,25 @@
         <!-- Font awesome -->
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-        <title>GEOG 382 Final Project</title>
+        <title>2022 U.S Flu Map</title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">Flu Map</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="Description.html">Description</a>
+        <header class="header">
+            <div class="header__content">
+                <a class="logo active" href="index.html">2022 U.S Flu Map</a>
+                <!-- Responsive navigation bar-->
+                <nav class="nav" id="myTopnav">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a href="description.html" class="nav__link">Description</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Acknowledgment.html">Acknowledgments</a>
+                        <li class="nav__item">
+                            <a href="acknowledgment.html" class="nav__link">Acknowledgment</a>
                         </li>
                     </ul>
-                </div>
+                </nav>
             </div>
-        </nav>
+        </header>
         <div class = "body-content">
             <div id="map"></div>
             <div class='map-overlay' id='features'>
