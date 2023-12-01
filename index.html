@@ -13,10 +13,33 @@
         <!-- Including the main.css file for styling -->
         <link rel="stylesheet" href="css/main.css">
 
+        <!-- NEED TO ADD TO THE MAIN BRANK -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <!-- NEED TO ADD TO THE MAIN BRANK -->
+
         <title>GEOG 382 Final Project</title>
     </head>
     <body>
-        <p1>Hello World</p1>
+        <div id="map"></div>
+
+        <div class='map-overlay' id='features'>
+            <h2>Washington Cumulative COVID-19 Death Rate as of Oct. 25th, 2021</h2>
+            <div id='text-description'>
+                <p>Hover over a state!</p>
+            </div>
+        </div>
+
+        <!-- NEED TO ADD TO THE MAIN BRANK -->
+        <div id="chart-container">
+            <button id="resize-button" class="expand"><i class="fa fa-expand"></i></button>
+            <canvas id="line-chart"></canvas>
+        </div>   
+        <!-- NEED TO ADD TO THE MAIN BRANK -->
+
+
+        <div class='map-overlay' id='legend'></div>
 
         <!--Adding main.js file here at the end of body tag-->
         <script src="js/main.js" defer></script>
