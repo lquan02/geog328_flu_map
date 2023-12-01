@@ -11,7 +11,6 @@ const map = new mapboxgl.Map({
 
 // map.addControl(new mapboxgl.NavigationControl());
 
-
 // Declare a variable to store the state data
 let weekly_data;
 
@@ -29,8 +28,8 @@ async function state_weekly() {
 
     let week = [];
     let i = 0;
-
-    for(var key in weekly_data['Alabama']){
+  
+    for(let key in weekly_data['Alabama']){
         week[i] = weekly_data['Alabama'][key]['WEEK'];
         i++;
       }
@@ -49,7 +48,7 @@ function showLineChartPopup(stateName) {
     let yData_B = [];
     let i = 0;
 
-    for(var key in weekly_data[stateName]){
+    for(let key in weekly_data[stateName]){
         xData[i] = weekly_data[stateName][key]['WEEK'];
         yData_D[i] = weekly_data[stateName][key]['DEATHS'];
         yData_A[i] = weekly_data[stateName][key]['TOTAL_A'];
@@ -112,12 +111,9 @@ function showLineChartPopup(stateName) {
         },
     });
 }
-
-
 document.getElementById('resize-button').addEventListener('click', function() {
     resizeCanvas();
 });
-
 // Function to resize the canvas
 function resizeCanvas() {
     const chartContainer = document.getElementById('chart-container');
@@ -133,13 +129,8 @@ function resizeCanvas() {
         chartContainer.style.width = '400px';
         button.innerHTML = '<i class="fa fa-expand"></i>';
         button.className = "expand";
-    }
-
-    
-    
+    }    
 }
-
-
 // load data and add as layer
 async function geojsonFetch() {
     let response = await fetch('assests/flu_state_data_2022.geojson');
@@ -214,7 +205,6 @@ async function geojsonFetch() {
         const legend = document.getElementById('legend');
         legend.innerHTML = "<b>Percent Positive<br></b>(Both Type A and Type B)<br>";
 
-
         layers.forEach((layer, i) => {
             const color = colors[i];
             const item = document.createElement('div');
@@ -255,12 +245,6 @@ async function geojsonFetch() {
             showLineChartPopup('National');
         }
     });
-
 }
-
 // Call the function to fetch GeoJSON data and load the map
 geojsonFetch();
-
-
-
-
