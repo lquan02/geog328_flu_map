@@ -176,7 +176,7 @@ async function geojsonFetch() {
                     "#800026"    // use color #800026 if 1000 <= density
                 ],
                 'fill-outline-color': '#BBBBBB',
-                'fill-opacity': 0.7,
+                'fill-opacity': 0.6,
             }
         });
 
@@ -220,20 +220,30 @@ async function geojsonFetch() {
         });
     });
 
-    map.on('mousemove', ({point}) => {
+    map.addLayer({
+        id: 'state_data_layer_click',
+        type: 'fill',
+        source: 'state_data',  // Replace with your actual source id
+        paint: {
+            'fill-opacity': 0.8,
+            'fill-color': 'green',  // Change to the desired click color
+        },
+    });
+
+
+    map.on('click', ({point}) => {
         const state = map.queryRenderedFeatures(point, {
             layers: ['state_data_layer']
         });
-        document.getElementById('text-description').innerHTML = state.length ?
-            `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.PERCENT_POSITIVE}%</strong> positive</em></p>` :
-            `<p>Hover over a state!</p>`;
-    });
-
-    // Event listener for a click on the map
-    map.on('click', 'state_data_layer', (event) => {
-        const stateName = event.features[0].properties.STATE;
-        // Show the line chart pop-up for the clicked state
-        showLineChartPopup(stateName);
+        if (state.length) {
+            // If a state is clicked, show information for that state
+            document.getElementById('text-description').innerHTML = `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.PERCENT_POSITIVE}%</strong> positive</em></p>`;
+            showLineChartPopup(state[0].properties.STATE);
+        } else {
+            // If clicked outside of a state, show national data
+            document.getElementById('text-description').innerHTML = `<p>Click on a state!</p>`;
+            showLineChartPopup('National');
+        }
     });
 }
 // Call the function to fetch GeoJSON data and load the map
