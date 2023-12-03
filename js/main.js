@@ -172,12 +172,23 @@ async function geojsonFetch() {
                     
                     "#800026"    // use color #800026 if 1000 <= density
                 ],
-                'fill-outline-color': '#BBBBBB',
-                'fill-opacity': 0.6,
+                'fill-outline-color': [
+                    'case',
+                    ['boolean', ['feature-state', 'clicked'], false],
+                    '#000000',
+                    '#BBBBBB'
+                ],
+                'fill-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    0.8,
+                    0.5
+                ]
             }
         });
 
-    
+
+
         const layers = [
             '0 or N/A',
             'Less than 1000',
@@ -214,18 +225,40 @@ async function geojsonFetch() {
             item.appendChild(value);
             legend.appendChild(item);
         });
+        
     });
 
-    map.addLayer({
-        id: 'state_data_layer_click',
-        type: 'fill',
-        source: 'state_data',  // Replace with your actual source id
-        paint: {
-            'fill-opacity': 0.8,
-            'fill-color': 'green',  // Change to the desired click color
-        },
+    let hoveredPolygonId = null;
+
+    map.on('mousemove', 'state_data_layer', (e) => {
+        if (e.features.length > 0) {
+            if (hoveredPolygonId !== null) {
+                map.setFeatureState(
+                    { source: 'state_data', id: hoveredPolygonId },
+                    { hover: false }
+                );
+            }
+            hoveredPolygonId = e.features[0].id;
+            map.setFeatureState(
+                { source: 'state_data', id: hoveredPolygonId },
+                { hover: true }
+            );
+        }
+    });
+        
+    // When the mouse leaves the state-fill layer, update the feature state of the
+    // previously hovered feature.
+    map.on('mouseleave', 'state_data_layer', () => {
+        if (hoveredPolygonId !== null) {
+            map.setFeatureState(
+                { source: 'state_data', id: hoveredPolygonId },
+                { hover: false }
+            );
+        }
+        hoveredPolygonId = null;
     });
 
+    var polygonID = null;
 
     map.on('click', ({point}) => {
         const state = map.queryRenderedFeatures(point, {
@@ -235,10 +268,36 @@ async function geojsonFetch() {
             // If a state is clicked, show information for that state
             document.getElementById('text-description').innerHTML = `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.TOTAL_A + state[0].properties.TOTAL_B}</strong> positive cases</em></p>`;
             showLineChartPopup(state[0].properties.STATE);
+            
+            if (polygonID) {
+                map.removeFeatureState({
+                    source: "state_data",
+                    id: polygonID
+                });
+            }
+
+            polygonID = state[0].id;
+
+            map.setFeatureState({
+                    source: 'state_data',
+                    id: polygonID,
+                }, {
+                clicked: true
+            });
+
+
         } else {
             // If clicked outside of a state, show national data
             document.getElementById('text-description').innerHTML = `<p>Click on a state!</p>`;
             showLineChartPopup('National');
+            
+            map.setFeatureState({
+                    source: 'state_data',
+                    id: polygonID,
+                }, {
+                clicked: false
+            }); 
+
         }
     });
 }
