@@ -172,12 +172,12 @@ async function geojsonFetch() {
                     
                     "#800026"    // use color #800026 if 1000 <= density
                 ],
-                'fill-outline-color': [
-                    'case',
-                    ['boolean', ['feature-state', 'clicked'], false],
-                    '#000000',
-                    '#BBBBBB'
-                ],
+                // 'fill-outline-color': [
+                //     'case',
+                //     ['boolean', ['feature-state', 'clicked'], false],
+                //     '#000000',
+                //     '#BBBBBB'
+                // ],
                 'fill-opacity': [
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
@@ -187,7 +187,28 @@ async function geojsonFetch() {
             }
         });
 
-
+        map.addLayer({
+            'id': 'state_borders',
+            'type': 'line',
+            'source': 'state_data',
+            'layout': {},
+            'paint': {
+                'line-color': "#000000",
+                'line-width': [
+                    'case',
+                    ['boolean', ['feature-state', 'clicked'], false],
+                    2.5,
+                    1
+                ],
+                'line-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'clicked'], false],
+                    0.5,
+                    0.1
+                ]
+            }
+        });
+            
 
         const layers = [
             '0 or N/A',
