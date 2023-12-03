@@ -150,34 +150,28 @@ async function geojsonFetch() {
                 'fill-color': [
                     'step',      // use step expression to provide fill color based on values
                     
-                    ['+', ['get', 'TOTAL_A'], ['get', 'TOTAL_B']],  // get the density attribute from the data
+                    ['+', ['get', 'TOTAL_A'], ['get', 'TOTAL_B']],  // get the total positive cases from the data
                     
-                    '#888888',   // use color #FFEDA0
-                    0.01,          // if density < 10
+                    '#888888',   
+                    0.01,          // if total cases < 0.01 (which means 0 cases or N/A)
                     
-                    '#FED976',   // use color #FED976
-                    1000,          // if 10 <= density < 20
+                    '#FED976',   
+                    1000,          // if total cases 1-1000 (which means 0 cases or N/A)
                     
-                    '#FEB24C',   // use color #FEB24C
-                    5000,          // if 20 <= density < 50
+                    '#FEB24C',   
+                    5000,          // if total cases 1000-5000 (which means 0 cases or N/A)
                     
-                    '#FD8D3C',   // use color #FD8D3C
-                    10000,         // if 50 <= density < 100
+                    '#FD8D3C',   
+                    10000,         // if total cases 5000-10000 (which means 0 cases or N/A)
                     
-                    '#FC4E2A',   // use color #FC4E2A
-                    20000,         // if 100 <= density < 200
+                    '#FC4E2A',   
+                    20000,         // if total cases 10000-20000 (which means 0 cases or N/A)
                     
-                    '#E31A1C',   // use color #E31A1C
-                    50000,         // if 200 <= density < 500
+                    '#E31A1C',   
+                    50000,         // if total cases 20000-50000 (which means 0 cases or N/A)
                     
-                    "#800026"    // use color #800026 if 1000 <= density
+                    "#800026"    // use color #800026 if total cases >= 50000
                 ],
-                // 'fill-outline-color': [
-                //     'case',
-                //     ['boolean', ['feature-state', 'clicked'], false],
-                //     '#000000',
-                //     '#BBBBBB'
-                // ],
                 'fill-opacity': [
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
@@ -209,7 +203,6 @@ async function geojsonFetch() {
             }
         });
             
-
         const layers = [
             '0 or N/A',
             'Less than 1000',
