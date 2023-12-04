@@ -155,6 +155,29 @@ a.active {
     height: max-content;
 }
 
+#side-container {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.8);
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    font-family: Arial, sans-serif;
+    border-radius: 3px;
+    width: 400px;
+    height: 400px;
+    flex-direction: row-reverse;
+    align-items: stretch;
+    text-align: center;
+    overflow: auto;
+}
+
+.center {
+    margin:auto;
+}
+
 #resize-button {
     position: absolute;
     right: 0;
@@ -176,6 +199,7 @@ a.active {
     height: 100px;
     margin-top: 20px;
     width: 270px;
+    height: max-content;
 }
 
 #legend {
@@ -186,6 +210,34 @@ a.active {
     height: max-content;
     margin-bottom: 40px;
     width: 150px;
+}
+
+#side-panel {
+    flex-basis: 400px;
+    overflow-y: scroll;
+}
+
+button {
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    text-align: center;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
 .legend-key {
