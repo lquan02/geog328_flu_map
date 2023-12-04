@@ -5,7 +5,7 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v10', // style URL
-    zoom: 2, // starting zoom
+    zoom: 3, // starting zoom
     center: [-120.6167337421042, 47.37496695075868] // starting center
 });
 
@@ -55,7 +55,6 @@ function showLineChartPopup(stateName) {
         yData_B[i] = weekly_data[stateName][key]['TOTAL_B'];
         i++;
       }
-    
     
     const ctx = document.getElementById('line-chart').getContext('2d');
     if (window.myLineChart) {
@@ -180,7 +179,7 @@ async function geojsonFetch() {
                 ]
             }
         });
-
+      
         map.addLayer({
             'id': 'state_borders',
             'type': 'line',
@@ -202,7 +201,7 @@ async function geojsonFetch() {
                 ]
             }
         });
-            
+      
         const layers = [
             '0 or N/A',
             'Less than 1000',
@@ -221,7 +220,6 @@ async function geojsonFetch() {
             '#E31A1C70',
             '#80002670'
         ];
-
         // create legend
         const legend = document.getElementById('legend');
         legend.innerHTML = "<b>Total Positive Cases<br></b>(Both Type A and Type B)<br>";
@@ -271,10 +269,9 @@ async function geojsonFetch() {
         }
         hoveredPolygonId = null;
     });
-
     var polygonID = null;
-
     map.on('click', ({point}) => {
+      
         const state = map.queryRenderedFeatures(point, {
             layers: ['state_data_layer']
         });
@@ -314,7 +311,7 @@ async function geojsonFetch() {
 
         }
     });
-
+  
     table = document.getElementsByTagName("table")[0];
     let row, cell1, cell2, cell3, cell4;
     for (let i = 0; i < state_data.features.length; i++) {
@@ -328,6 +325,7 @@ async function geojsonFetch() {
         cell3.innerHTML = state_data.features[i].properties.TOTAL_A;
         cell4.innerHTML = state_data.features[i].properties.TOTAL_B;
     }
+  
     let clicked = [false, false, false, false];
     document.getElementById('name-button').addEventListener('click', function(){
         sortToggle(clicked, 0);

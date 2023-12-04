@@ -19,14 +19,92 @@ p {
     margin: 10px;
 }
 
-.navbar {
-    display: block;
+/**
+Nav bar styling
+*/
+ul {
+    list-style: none;
+}
+  
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #e8f0f7;
+    padding-top: 60px;
+}
+
+.header {
+    background-color: rgb(19, 22, 26);
+    position: fixed;
+    width: 100%;
     top: 0;
 }
+  
+.header__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    min-height: 60px;
+}
+  
+.logo {
+    color: #fff;
+    font-size: 23px;
+    letter-spacing: -1.5px;
+    font-weight: 500;
+}
+  
+.nav {
+    transition: all 0.3s ease-in-out;
+}
+
+.nav__list {
+    display: flex;
+    column-gap: 40px;
+}
+  
+.nav__link {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 15px;
+    transition: all 0.4s;
+}
+  
+.nav__link:hover,
+.nav__link:focus {
+    color: rgba(255, 255, 255, 1);
+}
+  
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+  
+.bar {
+    height: 2px;
+    width: 27px;
+    background: #fff;
+    margin: 5px 0;
+    opacity: 0.8;
+    transition: all 0.3s ease-in-out;
+}
+  
+.nav--open {
+    transform: translate(0) !important;
+}
+
+/* Style for page content */
+a.active {
+  color: #fff;
+}
+
 /**
 * Create a position for the map
 * on the page */
-
 .body-content {
     position: absolute;
     top: 56px;
