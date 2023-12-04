@@ -215,18 +215,6 @@ async function geojsonFetch() {
             legend.appendChild(item);
         });
     });
-
-    map.addLayer({
-        id: 'state_data_layer_click',
-        type: 'fill',
-        source: 'state_data',  // Replace with your actual source id
-        paint: {
-            'fill-opacity': 0.8,
-            'fill-color': 'green',  // Change to the desired click color
-        },
-    });
-
-
     map.on('click', ({point}) => {
         const state = map.queryRenderedFeatures(point, {
             layers: ['state_data_layer']
@@ -241,6 +229,71 @@ async function geojsonFetch() {
             showLineChartPopup('National');
         }
     });
+
+    table = document.getElementsByTagName("table")[0];
+    let row, cell1, cell2, cell3, cell4;
+    for (let i = 0; i < state_data.features.length; i++) {
+        row = table.insertRow(-1);
+        cell1 = row.insertCell(0);
+        cell2 = row.insertCell(1);
+        cell3 = row.insertCell(2);
+        cell4 = row.insertCell(3);
+        cell1.innerHTML = state_data.features[i].properties.STATE;
+        cell2.innerHTML = state_data.features[i].properties.DEATH;
+        cell3.innerHTML = state_data.features[i].properties.TOTAL_A;
+        cell4.innerHTML = state_data.features[i].properties.TOTAL_B;
+    }
+    document.getElementById('name-button').addEventListener('click', function(){
+        sortTable(0);
+    });
+    document.getElementById('deaths-button').addEventListener('click', function(){
+        sortTable(1);
+    });
+    document.getElementById('type-a-button').addEventListener('click', function(){
+        sortTable(2);
+    });
+    document.getElementById('type-b-button').addEventListener('click', function(){
+        sortTable(3);
+    });
 }
 // Call the function to fetch GeoJSON data and load the map
 geojsonFetch();
+
+function sortTable(idx) {
+    let table = document.getElementsByTagName("table")[0];
+    let tbody = table.getElementsByTagName('tbody')[0];
+    //convert to arr for sorting
+    let arr = Array.from(table.rows);
+
+    //preserve top row so it doesn't get sorted
+    let toprow = arr[0];
+    arr.shift();
+    arr = quickSort(arr, idx);
+    arr.unshift(toprow);
+
+    while (tbody.firstChild){
+        tbody.removeChild(tbody.firstChild);
+    }
+    arr.forEach(row => tbody.appendChild(row));
+}
+
+const quickSort = (arr, idx) => {
+    if (arr.length <= 1) {
+      return arr;
+    }
+    let pivot = arr[0];
+    let leftArr = [];
+    let rightArr = [];
+  
+    for (let i = 1; i < arr.length; i++) {
+        x = arr[i].getElementsByTagName("td")[idx].innerHTML;
+        y = pivot.getElementsByTagName("td")[idx].innerHTML;
+      if (x < y) {
+        leftArr.push(arr[i],);
+      } else {
+        rightArr.push(arr[i]);
+      }
+    }
+  
+    return [...quickSort(leftArr, idx), pivot, ...quickSort(rightArr, idx)];
+  };
