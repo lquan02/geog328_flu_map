@@ -9,7 +9,7 @@ const map = new mapboxgl.Map({
     center: [-120.1, 51.2] // starting center
 });
 
-map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
 // Declare a variable to store the state data
 let weekly_data;
