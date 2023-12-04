@@ -243,23 +243,34 @@ async function geojsonFetch() {
         cell3.innerHTML = state_data.features[i].properties.TOTAL_A;
         cell4.innerHTML = state_data.features[i].properties.TOTAL_B;
     }
+    let clicked = [false, false, false, false];
     document.getElementById('name-button').addEventListener('click', function(){
-        sortTable(0);
+        sortToggle(clicked, 0);
     });
     document.getElementById('deaths-button').addEventListener('click', function(){
-        sortTable(1);
+        sortToggle(clicked, 1);
     });
     document.getElementById('type-a-button').addEventListener('click', function(){
-        sortTable(2);
+        sortToggle(clicked, 2);
     });
     document.getElementById('type-b-button').addEventListener('click', function(){
-        sortTable(3);
+        sortToggle(clicked, 3);
     });
 }
 // Call the function to fetch GeoJSON data and load the map
 geojsonFetch();
 
-function sortTable(idx) {
+function sortToggle(arr, num){
+    if(!arr[num]){
+        sortTable(num, true);
+        arr[num] = true;
+    }else{
+        sortTable(num, false);
+        arr[num] = false;
+    }
+}
+
+function sortTable(idx, isAsc) {
     let table = document.getElementsByTagName("table")[0];
     let tbody = table.getElementsByTagName('tbody')[0];
     //convert to arr for sorting
@@ -268,7 +279,7 @@ function sortTable(idx) {
     //preserve top row so it doesn't get sorted
     let toprow = arr[0];
     arr.shift();
-    arr = quickSort(arr, idx);
+    arr = quickSort(arr, idx, isAsc);
     arr.unshift(toprow);
 
     while (tbody.firstChild){
@@ -277,23 +288,38 @@ function sortTable(idx) {
     arr.forEach(row => tbody.appendChild(row));
 }
 
-const quickSort = (arr, idx) => {
+const quickSort = (arr, idx, isAsc) => {
     if (arr.length <= 1) {
       return arr;
     }
     let pivot = arr[0];
     let leftArr = [];
     let rightArr = [];
-  
     for (let i = 1; i < arr.length; i++) {
-        x = parseFloat(arr[i].getElementsByTagName("td")[idx].innerHTML);
-        y = parseFloat(pivot.getElementsByTagName("td")[idx].innerHTML);
-      if (x < y) {
-        leftArr.push(arr[i],);
-      } else {
-        rightArr.push(arr[i]);
-      }
+        let x;
+        let y;
+        if(idx === 0){
+            x = arr[i].getElementsByTagName("td")[idx].innerHTML;
+            y = pivot.getElementsByTagName("td")[idx].innerHTML;
+        }else{
+            x = parseFloat(arr[i].getElementsByTagName("td")[idx].innerHTML);
+            y = parseFloat(pivot.getElementsByTagName("td")[idx].innerHTML);
+        }
+        if(isAsc){
+            if (x < y) {
+                leftArr.push(arr[i]);
+            } else {
+                rightArr.push(arr[i]);
+            }
+        }else{
+            if (x > y) {
+                leftArr.push(arr[i]);
+            } else {
+                rightArr.push(arr[i]);
+            } 
+        }
+      
     }
   
-    return [...quickSort(leftArr, idx), pivot, ...quickSort(rightArr, idx)];
+    return [...quickSort(leftArr, idx, isAsc), pivot, ...quickSort(rightArr, idx, isAsc)];
   };
