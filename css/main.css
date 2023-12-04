@@ -98,6 +98,7 @@ p {
     height: 100px;
     margin-top: 20px;
     width: 270px;
+    height: max-content;
 }
 
 #legend {

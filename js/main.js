@@ -150,45 +150,67 @@ async function geojsonFetch() {
                 'fill-color': [
                     'step',      // use step expression to provide fill color based on values
                     
-                    ['get', 'PERCENT_POSITIVE'],  // get the density attribute from the data
+                    ['+', ['get', 'TOTAL_A'], ['get', 'TOTAL_B']],  // get the total positive cases from the data
                     
-                    '#888888',   // use color #FFEDA0
-                    0.01,          // if density < 10
+                    '#888888',   
+                    0.01,          // if total cases < 0.01 (which means 0 cases or N/A)
                     
-                    '#FED976',   // use color #FED976
-                    5,          // if 10 <= density < 20
+                    '#FED976',   
+                    1000,          // if total cases 1-1000 (which means 0 cases or N/A)
                     
-                    '#FEB24C',   // use color #FEB24C
-                    10,          // if 20 <= density < 50
+                    '#FEB24C',   
+                    5000,          // if total cases 1000-5000 (which means 0 cases or N/A)
                     
-                    '#FD8D3C',   // use color #FD8D3C
-                    15,         // if 50 <= density < 100
+                    '#FD8D3C',   
+                    10000,         // if total cases 5000-10000 (which means 0 cases or N/A)
                     
-                    '#FC4E2A',   // use color #FC4E2A
-                    20,         // if 100 <= density < 200
+                    '#FC4E2A',   
+                    20000,         // if total cases 10000-20000 (which means 0 cases or N/A)
                     
-                    '#E31A1C',   // use color #E31A1C
-                    25,         // if 200 <= density < 500
+                    '#E31A1C',   
+                    50000,         // if total cases 20000-50000 (which means 0 cases or N/A)
                     
-                    '#BD0026',   // use color #BD0026
-                    30,        // if 500 <= density < 1000
-                    
-                    "#800026"    // use color #800026 if 1000 <= density
+                    "#800026"    // use color #800026 if total cases >= 50000
                 ],
-                'fill-outline-color': '#BBBBBB',
-                'fill-opacity': 0.7,
+                'fill-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    0.8,
+                    0.5
+                ]
             }
         });
 
+        map.addLayer({
+            'id': 'state_borders',
+            'type': 'line',
+            'source': 'state_data',
+            'layout': {},
+            'paint': {
+                'line-color': "#000000",
+                'line-width': [
+                    'case',
+                    ['boolean', ['feature-state', 'clicked'], false],
+                    2.5,
+                    1
+                ],
+                'line-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'clicked'], false],
+                    0.5,
+                    0.1
+                ]
+            }
+        });
+            
         const layers = [
             '0 or N/A',
-            'Less than 5',
-            '5-10',
-            '10-15',
-            '15-20',
-            '20-25',
-            '25-30',
-            '30 and more'
+            'Less than 1000',
+            '1,000-5,000',
+            '5,000-10,000',
+            '10,000-20,000',
+            '20,000-50,000',
+            '50,000+'
         ];
         const colors = [
             '#888888',
@@ -197,13 +219,12 @@ async function geojsonFetch() {
             '#FD8D3C70',
             '#FC4E2A70',
             '#E31A1C70',
-            '#BD002670',
             '#80002670'
         ];
 
         // create legend
         const legend = document.getElementById('legend');
-        legend.innerHTML = "<b>Percent Positive<br></b>(Both Type A and Type B)<br>";
+        legend.innerHTML = "<b>Total Positive Cases<br></b>(Both Type A and Type B)<br>";
 
         layers.forEach((layer, i) => {
             const color = colors[i];
@@ -218,22 +239,80 @@ async function geojsonFetch() {
             item.appendChild(value);
             legend.appendChild(item);
         });
+        
     });
 
-    map.on('mousemove', ({point}) => {
+    let hoveredPolygonId = null;
+
+    map.on('mousemove', 'state_data_layer', (e) => {
+        if (e.features.length > 0) {
+            if (hoveredPolygonId !== null) {
+                map.setFeatureState(
+                    { source: 'state_data', id: hoveredPolygonId },
+                    { hover: false }
+                );
+            }
+            hoveredPolygonId = e.features[0].id;
+            map.setFeatureState(
+                { source: 'state_data', id: hoveredPolygonId },
+                { hover: true }
+            );
+        }
+    });
+        
+    // When the mouse leaves the state-fill layer, update the feature state of the
+    // previously hovered feature.
+    map.on('mouseleave', 'state_data_layer', () => {
+        if (hoveredPolygonId !== null) {
+            map.setFeatureState(
+                { source: 'state_data', id: hoveredPolygonId },
+                { hover: false }
+            );
+        }
+        hoveredPolygonId = null;
+    });
+
+    var polygonID = null;
+
+    map.on('click', ({point}) => {
         const state = map.queryRenderedFeatures(point, {
             layers: ['state_data_layer']
         });
-        document.getElementById('text-description').innerHTML = state.length ?
-            `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.PERCENT_POSITIVE}%</strong> positive</em></p>` :
-            `<p>Hover over a state!</p>`;
-    });
+        if (state.length) {
+            // If a state is clicked, show information for that state
+            document.getElementById('text-description').innerHTML = `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.TOTAL_A + state[0].properties.TOTAL_B}</strong> positive cases</em></p>`;
+            showLineChartPopup(state[0].properties.STATE);
+            
+            if (polygonID) {
+                map.removeFeatureState({
+                    source: "state_data",
+                    id: polygonID
+                });
+            }
 
-    // Event listener for a click on the map
-    map.on('click', 'state_data_layer', (event) => {
-        const stateName = event.features[0].properties.STATE;
-        // Show the line chart pop-up for the clicked state
-        showLineChartPopup(stateName);
+            polygonID = state[0].id;
+
+            map.setFeatureState({
+                    source: 'state_data',
+                    id: polygonID,
+                }, {
+                clicked: true
+            });
+
+
+        } else {
+            // If clicked outside of a state, show national data
+            document.getElementById('text-description').innerHTML = `<p>Click on a state!</p>`;
+            showLineChartPopup('National');
+            
+            map.setFeatureState({
+                    source: 'state_data',
+                    id: polygonID,
+                }, {
+                clicked: false
+            }); 
+
+        }
     });
 }
 // Call the function to fetch GeoJSON data and load the map
