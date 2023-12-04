@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 
     <!-- Font awesome -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <title>2022 U.S. Influenza Map</title>
 </head>
@@ -45,37 +45,43 @@
         </div>  
      </header>
      <div class = "body-content">
-        <div id="map"></div>
-        <div class='map-overlay' id='features'>
-            <h2>2022 Surveillance Data of Influenza Flu in the US</h2>
-            <div id='text-description'>
-                <p>Click on a state!</p>
+        <div id="map-container">
+            <div id="map"></div>
+            <div class='map-overlay' id='legend'> <p>Positive Cases </p> </div>
+            <a href="javascript:void(0)" id="openbtn">
+                <i class="fa fa-bars" onclick="openNav()"></i>
+            </a>
+        </div>
+        
+
+        <div id="side-container">
+            <a href="javascript:void(0)" id="closebtn" onclick="closeNav()">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+            <div id='features'>
+                <h2><b>2022 Influenza Statistics</b></h2>
+                <div id='text-description'>
+                    <p>Click on a state!</p>
+                </div>
+            </div>
+    
+            <div id="chart-container">
+                <canvas id="line-chart"></canvas>
+            </div> 
+
+            <div id="side-panel">
+                <h3>Annual Influenza Data by State</h3>
+                <table>
+                    <tr>
+                        <th>State <i id="name-button" class="fa fa-fw fa-sort"></i></th>
+                        <th>Deaths <i id="deaths-button" class="fa fa-fw fa-sort"></i></th>
+                        <th>Type A <i id="type-a-button" class="fa fa-fw fa-sort"></i></th>
+                        <th>Type B <i id="type-b-button" class="fa fa-fw fa-sort"></i></th>
+                    </tr>
+                </table>
             </div>
         </div>
-        <div id="chart-container">
-            <button id="resize-button" class="expand"><i class="fa fa-expand"></i></button>
-            <canvas id="line-chart"></canvas>
-        </div>   
-        <div class='map-overlay' id='legend'></div>
-    </div>
-    <div id="side-container">
-        <div id="side-panel">
-            <h2>US Flu Data Table</h2>
-            <p>Click to Sort By:</p>
-            <button id="name-button">State Name</button>
-            <button id="deaths-button">Deaths</button>
-            <button id="type-a-button">Type A</button>
-            <button id="type-b-button">Type B</button>
- 
-            <table>
-                <tr>
-                    <th>State Name</th>
-                    <th>Deaths</th>
-                    <th>Type A Cases</th>
-                    <th>Type B Cases</th>
-                </tr>
-            </table>
-        </div>
+        
     </div>
     <script src="js/main.js"></script>
 </body>
