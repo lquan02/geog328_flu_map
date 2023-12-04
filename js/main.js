@@ -203,12 +203,12 @@ async function geojsonFetch() {
         });
       
         const layers = [
-            '0 or N/A',
-            'Less than 1000',
-            '1,000-5,000',
-            '5,000-10,000',
-            '10,000-20,000',
-            '20,000-50,000',
+            '0',
+            '<1000',
+            '1,000',
+            '5,000',
+            '10,000',
+            '20,000',
             '50,000+'
         ];
         const colors = [
@@ -222,24 +222,30 @@ async function geojsonFetch() {
         ];
         // create legend
         const legend = document.getElementById('legend');
-        legend.innerHTML = "<b>Total Positive Cases<br></b>(Both Type A and Type B)<br>";
 
+        // Loop through layers to create legend items
         layers.forEach((layer, i) => {
-            const color = colors[i];
-            const item = document.createElement('div');
-            const key = document.createElement('span');
-            key.className = 'legend-key';
-            key.style.backgroundColor = color;
+        // Create a container for each legend item
+        const legendItem = document.createElement('div');
+        legendItem.className = 'legend-item';
 
-            const value = document.createElement('span');
-            value.innerHTML = `${layer}`;
-            item.appendChild(key);
-            item.appendChild(value);
-            legend.appendChild(item);
-        });
-        
+        // Create the color block
+        const key = document.createElement('div');
+        key.className = 'legend-key';
+        key.style.backgroundColor = colors[i];
+
+        // Create the label text
+        const label = document.createElement('span');
+        label.innerText = layer;
+        key.appendChild(label);
+
+        // Append the color block to the legend item container
+        legendItem.appendChild(key);
+
+        // Append the legend item to the legend
+        legend.appendChild(legendItem);
     });
-
+});
     let hoveredPolygonId = null;
 
     map.on('mousemove', 'state_data_layer', (e) => {
@@ -269,7 +275,7 @@ async function geojsonFetch() {
         }
         hoveredPolygonId = null;
     });
-    var polygonID = null;
+    let polygonID = null;
     map.on('click', ({point}) => {
       
         const state = map.queryRenderedFeatures(point, {
@@ -295,8 +301,6 @@ async function geojsonFetch() {
                 }, {
                 clicked: true
             });
-
-
         } else {
             // If clicked outside of a state, show national data
             document.getElementById('text-description').innerHTML = `<p>Click on a state!</p>`;
@@ -308,11 +312,10 @@ async function geojsonFetch() {
                 }, {
                 clicked: false
             }); 
-
         }
     });
   
-    table = document.getElementsByTagName("table")[0];
+    let table = document.getElementsByTagName("table")[0];
     let row, cell1, cell2, cell3, cell4;
     for (let i = 0; i < state_data.features.length; i++) {
         row = table.insertRow(-1);
@@ -400,9 +403,7 @@ const quickSort = (arr, idx, isAsc) => {
             } else {
                 rightArr.push(arr[i]);
             } 
-        }
-      
+        } 
     }
-  
     return [...quickSort(leftArr, idx, isAsc), pivot, ...quickSort(rightArr, idx, isAsc)];
-  };
+};
