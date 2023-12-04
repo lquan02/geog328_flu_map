@@ -286,8 +286,8 @@ const quickSort = (arr, idx) => {
     let rightArr = [];
   
     for (let i = 1; i < arr.length; i++) {
-        x = arr[i].getElementsByTagName("td")[idx].innerHTML;
-        y = pivot.getElementsByTagName("td")[idx].innerHTML;
+        x = parseFloat(arr[i].getElementsByTagName("td")[idx].innerHTML);
+        y = parseFloat(pivot.getElementsByTagName("td")[idx].innerHTML);
       if (x < y) {
         leftArr.push(arr[i],);
       } else {
