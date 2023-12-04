@@ -28,7 +28,7 @@ async function state_weekly() {
 
     let week = [];
     let i = 0;
-
+  
     for(let key in weekly_data['Alabama']){
         week[i] = weekly_data['Alabama'][key]['WEEK'];
         i++;
