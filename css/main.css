@@ -73,24 +73,14 @@ body {
     font-size: 15px;
     transition: all 0.4s;
 }
+
+.nav__item {
+    padding-top: 10px;
+}
   
 .nav__link:hover,
 .nav__link:focus {
     color: rgba(255, 255, 255, 1);
-}
-  
-.hamburger {
-    display: none;
-    cursor: pointer;
-}
-  
-.bar {
-    height: 2px;
-    width: 27px;
-    background: #fff;
-    margin: 5px 0;
-    opacity: 0.8;
-    transition: all 0.3s ease-in-out;
 }
   
 .nav--open {
@@ -199,17 +189,16 @@ a.active {
     height: 100px;
     margin-top: 20px;
     width: 270px;
-    height: max-content;
 }
 
 #legend {
-    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     padding: 10px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    line-height: 18px;
-    height: max-content;
-    margin-bottom: 40px;
-    width: 150px;
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 #side-panel {
@@ -241,11 +230,28 @@ tr:nth-child(even) {
 }
 
 .legend-key {
-    display: inline-block;
-    border-radius: 20%;
-    width: 10px;
-    height: 10px;
-    margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px; /* Increased width for better fit */
+    height: 30px; /* Adjust height if needed */
+    margin-right: 10px;
+    color: #514a4a; /* Color of the text */
+    font-weight: bold; /* Optional: makes the text bold */
+    border-radius: 5px; /* Optional: for rounded corners */
+    text-align: center;
+}
+
+.legend-key span {
+    position: absolute;
+    z-index: 2; /* Ensures the text is above the color block */
+}
+
+@media (max-width: 768px) {
+    #chart-container {
+        width: 100%;
+        height: auto;
+    }
 }
 
 .mapboxgl-canvas-container.mapboxgl-interactive,
