@@ -5,7 +5,7 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v10', // style URL
-    zoom: 2, // starting zoom
+    zoom: 3, // starting zoom
     center: [-120.6167337421042, 47.37496695075868] // starting center
 });
 
@@ -55,7 +55,6 @@ function showLineChartPopup(stateName) {
         yData_B[i] = weekly_data[stateName][key]['TOTAL_B'];
         i++;
       }
-    
     
     const ctx = document.getElementById('line-chart').getContext('2d');
     if (window.myLineChart) {
@@ -180,7 +179,7 @@ async function geojsonFetch() {
                 ]
             }
         });
-
+      
         map.addLayer({
             'id': 'state_borders',
             'type': 'line',
@@ -202,14 +201,14 @@ async function geojsonFetch() {
                 ]
             }
         });
-            
+      
         const layers = [
-            '0 or N/A',
-            'Less than 1000',
-            '1,000-5,000',
-            '5,000-10,000',
-            '10,000-20,000',
-            '20,000-50,000',
+            '0',
+            '<1000',
+            '1,000',
+            '5,000',
+            '10,000',
+            '20,000',
             '50,000+'
         ];
         const colors = [
@@ -221,27 +220,32 @@ async function geojsonFetch() {
             '#E31A1C70',
             '#80002670'
         ];
-
         // create legend
         const legend = document.getElementById('legend');
-        legend.innerHTML = "<b>Total Positive Cases<br></b>(Both Type A and Type B)<br>";
 
+        // Loop through layers to create legend items
         layers.forEach((layer, i) => {
-            const color = colors[i];
-            const item = document.createElement('div');
-            const key = document.createElement('span');
-            key.className = 'legend-key';
-            key.style.backgroundColor = color;
+        // Create a container for each legend item
+        const legendItem = document.createElement('div');
+        legendItem.className = 'legend-item';
 
-            const value = document.createElement('span');
-            value.innerHTML = `${layer}`;
-            item.appendChild(key);
-            item.appendChild(value);
-            legend.appendChild(item);
-        });
-        
+        // Create the color block
+        const key = document.createElement('div');
+        key.className = 'legend-key';
+        key.style.backgroundColor = colors[i];
+
+        // Create the label text
+        const label = document.createElement('span');
+        label.innerText = layer;
+        key.appendChild(label);
+
+        // Append the color block to the legend item container
+        legendItem.appendChild(key);
+
+        // Append the legend item to the legend
+        legend.appendChild(legendItem);
     });
-
+});
     let hoveredPolygonId = null;
 
     map.on('mousemove', 'state_data_layer', (e) => {
@@ -271,10 +275,9 @@ async function geojsonFetch() {
         }
         hoveredPolygonId = null;
     });
-
-    var polygonID = null;
-
+    let polygonID = null;
     map.on('click', ({point}) => {
+      
         const state = map.queryRenderedFeatures(point, {
             layers: ['state_data_layer']
         });
@@ -298,8 +301,6 @@ async function geojsonFetch() {
                 }, {
                 clicked: true
             });
-
-
         } else {
             // If clicked outside of a state, show national data
             document.getElementById('text-description').innerHTML = `<p>Click on a state!</p>`;
@@ -311,9 +312,98 @@ async function geojsonFetch() {
                 }, {
                 clicked: false
             }); 
-
         }
+    });
+  
+    let table = document.getElementsByTagName("table")[0];
+    let row, cell1, cell2, cell3, cell4;
+    for (let i = 0; i < state_data.features.length; i++) {
+        row = table.insertRow(-1);
+        cell1 = row.insertCell(0);
+        cell2 = row.insertCell(1);
+        cell3 = row.insertCell(2);
+        cell4 = row.insertCell(3);
+        cell1.innerHTML = state_data.features[i].properties.STATE;
+        cell2.innerHTML = state_data.features[i].properties.DEATH;
+        cell3.innerHTML = state_data.features[i].properties.TOTAL_A;
+        cell4.innerHTML = state_data.features[i].properties.TOTAL_B;
+    }
+  
+    let clicked = [false, false, false, false];
+    document.getElementById('name-button').addEventListener('click', function(){
+        sortToggle(clicked, 0);
+    });
+    document.getElementById('deaths-button').addEventListener('click', function(){
+        sortToggle(clicked, 1);
+    });
+    document.getElementById('type-a-button').addEventListener('click', function(){
+        sortToggle(clicked, 2);
+    });
+    document.getElementById('type-b-button').addEventListener('click', function(){
+        sortToggle(clicked, 3);
     });
 }
 // Call the function to fetch GeoJSON data and load the map
 geojsonFetch();
+
+function sortToggle(arr, num){
+    if(!arr[num]){
+        sortTable(num, true);
+        arr[num] = true;
+    }else{
+        sortTable(num, false);
+        arr[num] = false;
+    }
+}
+
+function sortTable(idx, isAsc) {
+    let table = document.getElementsByTagName("table")[0];
+    let tbody = table.getElementsByTagName('tbody')[0];
+    //convert to arr for sorting
+    let arr = Array.from(table.rows);
+
+    //preserve top row so it doesn't get sorted
+    let toprow = arr[0];
+    arr.shift();
+    arr = quickSort(arr, idx, isAsc);
+    arr.unshift(toprow);
+
+    while (tbody.firstChild){
+        tbody.removeChild(tbody.firstChild);
+    }
+    arr.forEach(row => tbody.appendChild(row));
+}
+
+const quickSort = (arr, idx, isAsc) => {
+    if (arr.length <= 1) {
+      return arr;
+    }
+    let pivot = arr[0];
+    let leftArr = [];
+    let rightArr = [];
+    for (let i = 1; i < arr.length; i++) {
+        let x;
+        let y;
+        if(idx === 0){
+            x = arr[i].getElementsByTagName("td")[idx].innerHTML;
+            y = pivot.getElementsByTagName("td")[idx].innerHTML;
+        }else{
+            x = parseFloat(arr[i].getElementsByTagName("td")[idx].innerHTML);
+            y = parseFloat(pivot.getElementsByTagName("td")[idx].innerHTML);
+        }
+        if(isAsc){
+            if (x < y) {
+                leftArr.push(arr[i]);
+            } else {
+                rightArr.push(arr[i]);
+            }
+        }else{
+            if (x > y) {
+                leftArr.push(arr[i]);
+            } else {
+                rightArr.push(arr[i]);
+            } 
+        } 
+    }
+    return [...quickSort(leftArr, idx, isAsc), pivot, ...quickSort(rightArr, idx, isAsc)];
+};

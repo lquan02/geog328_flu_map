@@ -25,39 +25,58 @@
     <title>2022 U.S. Influenza Map</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Flu Map</a>
+    <header class="header">
+        <div class="header__content">
+            <a class="logo active" href="index.html">2022 U.S Influenza Map</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
+            <nav class="nav" id="myTopnav">
+                <ul class="nav__list">
+                    <li class="nav__item">
                         <a class="nav-link active" aria-current="page" href="description.html">Description</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="acknowledgment.html">Acknowledgments</a>
+                    <li class="nav__item">
+                        <a class="nav-link active" href="acknowledgment.html">Acknowledgments</a>
                     </li>
                 </ul>
-            </div>
+            </nav>
         </div>  
-     </nav>
+     </header>
      <div class = "body-content">
-          <div id="map"></div>
-          <div class='map-overlay' id='features'>
-              <h2>2022 Surveillance Data of Influenza Flu in the US</h2>
-              <div id='text-description'>
-                  <p>click on a state!</p>
-              </div>
-          </div>
-          <div id="chart-container">
-              <button id="resize-button" class="expand"><i class="fa fa-expand"></i></button>
-              <canvas id="line-chart"></canvas>
-          </div>   
-          <div class='map-overlay' id='legend'></div>
-      </div>
-      <script src="js/main.js"></script>
-    </body>
+        <div id="map"></div>
+        <div class='map-overlay' id='features'>
+            <h2>2022 Surveillance Data of Influenza Flu in the US</h2>
+            <div id='text-description'>
+                <p>Click on a state!</p>
+            </div>
+        </div>
+        <div id="chart-container">
+            <button id="resize-button" class="expand"><i class="fa fa-expand"></i></button>
+            <canvas id="line-chart"></canvas>
+        </div>   
+        <div class='map-overlay' id='legend'></div>
+    </div>
+    <div id="side-container">
+        <div id="side-panel">
+            <h2>US Flu Data Table</h2>
+            <p>Click to Sort By:</p>
+            <button id="name-button">State Name</button>
+            <button id="deaths-button">Deaths</button>
+            <button id="type-a-button">Type A</button>
+            <button id="type-b-button">Type B</button>
+ 
+            <table>
+                <tr>
+                    <th>State Name</th>
+                    <th>Deaths</th>
+                    <th>Type A Cases</th>
+                    <th>Type B Cases</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
 </html>
