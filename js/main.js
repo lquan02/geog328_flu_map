@@ -304,7 +304,7 @@ async function geojsonFetch() {
     
     let table = document.getElementsByTagName("table")[0];
     let row, cell1, cell2, cell3, cell4;
-    for (let i = 0; i < state_data.features.length; i++) {
+    for (let i = 0; i < state_data.features.length-1; i++) {
         row = table.insertRow(-1);
         cell1 = row.insertCell(0);
         cell2 = row.insertCell(1);
