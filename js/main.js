@@ -5,11 +5,11 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v10', // style URL
-    zoom: 3, // starting zoom
-    center: [-120.6167337421042, 47.37496695075868] // starting center
+    zoom: 2.8, // starting zoom
+    center: [-120.1, 51.2] // starting center
 });
 
-// map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');
 
 // Declare a variable to store the state data
 let weekly_data;
@@ -17,24 +17,6 @@ let weekly_data;
 async function state_weekly() {
     const response = await fetch("assests/state-by-weeks-2022_keyed.json");
     weekly_data = await response.json();
-    console.log(weekly_data);
-    console.log(typeof weekly_data);
-
-    // var parsedData = JSON.parse(weekly_data);
-
-    console.log(weekly_data['Alabama'][0]["WEEK"]);
-    console.log(weekly_data['Alabama'][1]["WEEK"]);
-    console.log(weekly_data['Alabama'][2]["WEEK"]);
-
-    let week = [];
-    let i = 0;
-  
-    for(let key in weekly_data['Alabama']){
-        week[i] = weekly_data['Alabama'][key]['WEEK'];
-        i++;
-      }
-    console.log(week);
-
     showLineChartPopup('National');
 }
 state_weekly()
@@ -96,13 +78,27 @@ function showLineChartPopup(stateName) {
                 mode: 'index',
                 intersect: false,
             },
+            scales: {
+                xAxes: {
+                    title: {
+                        display: true,
+                        text: 'Week',
+                        font: {
+                            size: 12,
+                        }
+                    }
+                },
+                y: {
+                    min: 0,
+                }
+            },
             stacked: false,
             plugins: {
                 title: {
                     display: true,
                     text: stateName + ' Weekly Data',
                     font: {
-                        size: 20,
+                        size: 18,
                       }
                 }
             },
@@ -110,30 +106,12 @@ function showLineChartPopup(stateName) {
         },
     });
 }
-document.getElementById('resize-button').addEventListener('click', function() {
-    resizeCanvas();
-});
-// Function to resize the canvas
-function resizeCanvas() {
-    const chartContainer = document.getElementById('chart-container');
 
-    const button = document.getElementById('resize-button');
-
-    if (button.className === "expand") {
-        // Set the new width and height for the canvas
-        chartContainer.style.width = '700px';
-        button.innerHTML = '<i class="fa fa-compress"></i>';
-        button.className = "compress";
-    } else {
-        chartContainer.style.width = '400px';
-        button.innerHTML = '<i class="fa fa-expand"></i>';
-        button.className = "expand";
-    }    
-}
+let nationalFeature;
 // load data and add as layer
 async function geojsonFetch() {
     let response = await fetch('assests/flu_state_data_2022.geojson');
-    let state_data = await response.json();
+    state_data = await response.json();
 
     map.on('load', function loadingData() {
         map.addSource('state_data', {
@@ -244,10 +222,13 @@ async function geojsonFetch() {
 
         // Append the legend item to the legend
         legend.appendChild(legendItem);
-    });
+
+        
+        nationalFeature = state_data.features.find(feature => feature.properties.STATE === 'National');
+        document.getElementById('text-description').innerHTML = `<h3>${nationalFeature.properties.STATE}</h3>`;
+        document.getElementById('text-description').innerHTML += `<p><strong><em>${nationalFeature.properties.TOTAL_A + nationalFeature.properties.TOTAL_B}</strong> positive cases</em> | <strong><em>${nationalFeature.properties.DEATH}</strong> deaths</em></p>`;    });
 });
     let hoveredPolygonId = null;
-
     map.on('mousemove', 'state_data_layer', (e) => {
         if (e.features.length > 0) {
             if (hoveredPolygonId !== null) {
@@ -263,7 +244,9 @@ async function geojsonFetch() {
             );
         }
     });
-        
+    
+
+    
     // When the mouse leaves the state-fill layer, update the feature state of the
     // previously hovered feature.
     map.on('mouseleave', 'state_data_layer', () => {
@@ -275,6 +258,8 @@ async function geojsonFetch() {
         }
         hoveredPolygonId = null;
     });
+
+
     let polygonID = null;
     map.on('click', ({point}) => {
       
@@ -283,7 +268,8 @@ async function geojsonFetch() {
         });
         if (state.length) {
             // If a state is clicked, show information for that state
-            document.getElementById('text-description').innerHTML = `<h3>${state[0].properties.STATE}</h3><p><strong><em>${state[0].properties.TOTAL_A + state[0].properties.TOTAL_B}</strong> positive cases</em></p>`;
+            document.getElementById('text-description').innerHTML = `<h3>${state[0].properties.STATE}</h3>`;
+            document.getElementById('text-description').innerHTML += `<p><strong><em>${state[0].properties.TOTAL_A + state[0].properties.TOTAL_B}</strong> positive cases</em> | <strong><em>${state[0].properties.DEATH}</strong> deaths</em></p>`;
             showLineChartPopup(state[0].properties.STATE);
             
             if (polygonID) {
@@ -303,7 +289,8 @@ async function geojsonFetch() {
             });
         } else {
             // If clicked outside of a state, show national data
-            document.getElementById('text-description').innerHTML = `<p>Click on a state!</p>`;
+            document.getElementById('text-description').innerHTML = `<h3>${nationalFeature.properties.STATE}</h3>`;
+            document.getElementById('text-description').innerHTML += `<p><strong><em>${nationalFeature.properties.TOTAL_A + nationalFeature.properties.TOTAL_B}</strong> positive cases</em> | <strong><em>${nationalFeature.properties.DEATH}</strong> deaths</em></p>`;
             showLineChartPopup('National');
             
             map.setFeatureState({
@@ -314,10 +301,10 @@ async function geojsonFetch() {
             }); 
         }
     });
-  
+    
     let table = document.getElementsByTagName("table")[0];
     let row, cell1, cell2, cell3, cell4;
-    for (let i = 0; i < state_data.features.length; i++) {
+    for (let i = 0; i < state_data.features.length-1; i++) {
         row = table.insertRow(-1);
         cell1 = row.insertCell(0);
         cell2 = row.insertCell(1);
@@ -407,3 +394,14 @@ const quickSort = (arr, idx, isAsc) => {
     }
     return [...quickSort(leftArr, idx, isAsc), pivot, ...quickSort(rightArr, idx, isAsc)];
 };
+
+
+function openNav() {
+    document.getElementById("side-container").style.display = "block";
+    document.getElementById("openbtn").style.display = "none";
+}
+
+function closeNav() {
+    document.getElementById("side-container").style.display = "none";
+    document.getElementById("openbtn").style.display = "block";
+}
