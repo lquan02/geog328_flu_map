@@ -5,8 +5,8 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v10', // style URL
-    zoom: 2.8, // starting zoom
-    center: [-120.1, 51.2] // starting center
+    zoom: 1.8, // starting zoom
+    center: [-120.1, 49.0] // starting center
 });
 
 map.addControl(new mapboxgl.NavigationControl(), 'top-left');
@@ -404,4 +404,24 @@ function openNav() {
 function closeNav() {
     document.getElementById("side-container").style.display = "none";
     document.getElementById("openbtn").style.display = "block";
+}
+
+function openPopup(n) {
+    if (n == 1) {
+        closePopup(2);
+        document.getElementById("description-popup").style.display = "block";
+    }
+    else if (n==2) {
+        closePopup(1);
+        document.getElementById("acknowledge-popup").style.display = "block";
+    }
+}
+
+function closePopup(n) {
+    if (n==1) {
+        document.getElementById("description-popup").style.display = "none";
+    }
+    else if (n==2) {
+        document.getElementById("acknowledge-popup").style.display = "none";
+    }
 }

@@ -35,16 +35,52 @@
             <nav class="nav" id="myTopnav">
                 <ul class="nav__list">
                     <li class="nav__item">
-                        <a class="nav-link active" aria-current="page" href="description.html">Description</a>
+                        <a class="nav-link active" aria-current="page" onclick="openPopup(1)">Description</a>
                     </li>
                     <li class="nav__item">
-                        <a class="nav-link active" href="acknowledgment.html">Acknowledgments</a>
+                        <a class="nav-link active" onclick="openPopup(2)">Acknowledgments</a>
                     </li>
                 </ul>
             </nav>
         </div>  
      </header>
-     <div class = "body-content">
+     <main class = "body-content">
+        <div class = "popup-container"> 
+            <div id = "description-popup">
+                <h2> Information </h2>
+                <a href="javascript:void(0)" id="closebtn" onclick="closePopup(1)">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+                <h3> About this Project </h3>
+                    <p>
+    
+                    </p>
+                <h3> Project Goals </h3>
+                    <p>
+    
+                    </p>
+                <h3> Project Features</h3>
+                    <p>
+    
+                    </p>
+            </div>
+    
+            <div id = "acknowledge-popup">
+                <h2> Acknowledgments </h2>
+                <a href="javascript:void(0)" id="closebtn" onclick="closePopup(2)">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+                <h3> Datasets </h3>
+                    <p>
+    
+                    </p>
+                <h3> Applied Libraries </h3>
+                    <p>
+    
+                    </p>
+            </div>    
+        </div>
+    
         <div id="map-container">
             <div id="map"></div>
             <div class='map-overlay' id='legend'> <p>Positive Cases </p> </div>
@@ -82,7 +118,7 @@
             </div>
         </div>
         
-    </div>
+    </main>
     <script src="js/main.js"></script>
 </body>
 </html>
