@@ -5,7 +5,7 @@ mapboxgl.accessToken =
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/mapbox/light-v10', // style URL
-    zoom: 1.8, // starting zoom
+    zoom: 2.3, // starting zoom
     center: [-120.1, 49.0] // starting center
 });
 
@@ -111,7 +111,7 @@ let nationalFeature;
 // load data and add as layer
 async function geojsonFetch() {
     let response = await fetch('assests/flu_state_data_2022.geojson');
-    state_data = await response.json();
+    let state_data = await response.json();
 
     map.on('load', function loadingData() {
         map.addSource('state_data', {
@@ -157,7 +157,6 @@ async function geojsonFetch() {
                 ]
             }
         });
-      
         map.addLayer({
             'id': 'state_borders',
             'type': 'line',
@@ -179,7 +178,6 @@ async function geojsonFetch() {
                 ]
             }
         });
-      
         const layers = [
             '0',
             '<1000',
@@ -223,7 +221,6 @@ async function geojsonFetch() {
         // Append the legend item to the legend
         legend.appendChild(legendItem);
 
-        
         nationalFeature = state_data.features.find(feature => feature.properties.STATE === 'National');
         document.getElementById('text-description').innerHTML = `<h3>${nationalFeature.properties.STATE}</h3>`;
         document.getElementById('text-description').innerHTML += `<p><strong><em>${nationalFeature.properties.TOTAL_A + nationalFeature.properties.TOTAL_B}</strong> positive cases</em> | <strong><em>${nationalFeature.properties.DEATH}</strong> deaths</em></p>`;    });
@@ -245,8 +242,6 @@ async function geojsonFetch() {
         }
     });
     
-
-    
     // When the mouse leaves the state-fill layer, update the feature state of the
     // previously hovered feature.
     map.on('mouseleave', 'state_data_layer', () => {
@@ -258,7 +253,6 @@ async function geojsonFetch() {
         }
         hoveredPolygonId = null;
     });
-
 
     let polygonID = null;
     map.on('click', ({point}) => {
@@ -395,7 +389,6 @@ const quickSort = (arr, idx, isAsc) => {
     return [...quickSort(leftArr, idx, isAsc), pivot, ...quickSort(rightArr, idx, isAsc)];
 };
 
-
 function openNav() {
     document.getElementById("side-container").style.display = "block";
     document.getElementById("openbtn").style.display = "none";
@@ -408,12 +401,20 @@ function closeNav() {
 
 function openPopup(n) {
     if (n == 1) {
+        if (document.getElementById("description-popup").style.display == "block") {
+            closePopup(1);
+        } else {
         closePopup(2);
         document.getElementById("description-popup").style.display = "block";
+        }
     }
     else if (n==2) {
-        closePopup(1);
-        document.getElementById("acknowledge-popup").style.display = "block";
+        if (document.getElementById("acknowledge-popup").style.display == "block") {
+            closePopup(2);
+        } else {
+            closePopup(1);
+            document.getElementById("acknowledge-popup").style.display = "block";
+        }
     }
 }
 
