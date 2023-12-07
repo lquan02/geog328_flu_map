@@ -117,9 +117,11 @@ a.active {
     z-index: 10;
     width: 600px;
     height: 95%;
-    overflow: clip;
-    background-color: rgb(221, 221, 221, 0.5);
+    overflow-y: auto;
+    background-color: rgba(228, 228, 228, 0.7);
     display: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 #map-container {
