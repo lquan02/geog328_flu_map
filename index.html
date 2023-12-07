@@ -1,124 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=EDGE"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="referrer" content="no-referrer">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=EDGE"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="referrer" content="no-referrer">
 
-    <link rel="stylesheet" href="css/main.css">
-    <!-- Including the Mapbox GL CSS file -->
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <!-- Including the main.css file for styling -->
-    <link rel="stylesheet" href="css/main.css">
-  
-    <!-- Including the Mapbox GL JS file -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
+        <!-- Including the Mapbox GL CSS file -->
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <!-- Including the main.css file for styling -->
+        <link rel="stylesheet" href="css/main.css">
+        <!-- Including the Mapbox GL JS file -->
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
+        <!-- ChartJS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- ChartJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-
-    <!-- Font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <title>2022 U.S. Influenza Map</title>
-</head>
-<body>
-    <header class="header">
-        <div class="header__content">
-            <a class="logo active" href="index.html">2022 U.S Influenza Map</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <nav class="nav" id="myTopnav">
-                <ul class="nav__list">
-                    <li class="nav__item">
-                        <a class="nav-link active" aria-current="page" onclick="openPopup(1)">Description</a>
-                    </li>
-                    <li class="nav__item">
-                        <a class="nav-link active" onclick="openPopup(2)">Acknowledgments</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>  
-     </header>
-     <main class = "body-content">
-        <div class = "popup-container"> 
-            <div id = "description-popup">
-                <h2> Information </h2>
-                <a href="javascript:void(0)" id="closebtn" onclick="closePopup(1)">
-                    <i class="fa-solid fa-xmark"></i>
-                </a>
-                <h3> About this Project </h3>
-                    <p>
-    
-                    </p>
-                <h3> Project Goals </h3>
-                    <p>
-    
-                    </p>
-                <h3> Project Features</h3>
-                    <p>
-    
-                    </p>
-            </div>
-    
-            <div id = "acknowledge-popup">
-                <h2> Acknowledgments </h2>
-                <a href="javascript:void(0)" id="closebtn" onclick="closePopup(2)">
-                    <i class="fa-solid fa-xmark"></i>
-                </a>
-                <h3> Datasets </h3>
-                    <p>
-    
-                    </p>
-                <h3> Applied Libraries </h3>
-                    <p>
-    
-                    </p>
-            </div>    
-        </div>
-    
-        <div id="map-container">
-            <div id="map"></div>
-            <div class='map-overlay' id='legend'> <p>Positive Cases </p> </div>
-            <a href="javascript:void(0)" id="openbtn">
-                <i class="fa fa-bars" onclick="openNav()"></i>
-            </a>
-        </div>
+        <title>2022 U.S. Influenza Map</title>
+    </head>
+    <body>
+        <header class="nav__bar">
+            <div class="nav__content">
+                <a class="logo active" href="index.html">2022 U.S Influenza Map</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <nav class="nav" id="myTopnav">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a class="nav-link active" href="index.html"><i class="fa-solid fa-house-chimney fa-xl"></i></a>
+                        </li>
+                        <li class="nav__item">
+                            <a class="nav-link active" aria-current="page" onclick="openPopup(1)">
+                                <i class="fa-regular fa-circle-question fa-xl"></i>
+                            </a>
+                        </li>
+                        <li class="nav__item">
+                            <a class="nav-link active" aria-current="page" onclick="openPopup(2)">
+                                <i class="fa-solid fa-flag fa-xl"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>  
+        </header>
+        <main class = "body-content">
+            <div id = "popup-container"> 
+                <div id = "description-popup">
+                    <h2> Information </h2>
+                    <a href="javascript:void(0)" id="closebtn" onclick="closePopup(1)">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                    <h3> About this Project </h3>
+                        <p>
         
-
-        <div id="side-container">
-            <a href="javascript:void(0)" id="closebtn" onclick="closeNav()">
-                <i class="fa-solid fa-xmark"></i>
-            </a>
-            <div id='features'>
-                <h2><b>2022 Influenza Statistics</b></h2>
-                <div id='text-description'>
-                    <p>Click on a state!</p>
+                        </p>
+                    <h3> Project Goals </h3>
+                        <p>
+        
+                        </p>
+                    <h3> Project Features</h3>
+                        <p>
+        
+                        </p>
+                </div>
+                <div id = "acknowledge-popup">
+                    <h2> Acknowledgments </h2>
+                    <a href="javascript:void(0)" id="closebtn" onclick="closePopup(2)">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                    <h3> Datasets </h3>
+                        <p>
+        
+                        </p>
+                    <h3> Applied Libraries </h3>
+                        <p>
+        
+                        </p>
+                </div>    
+            </div>
+            <div id="map-container">
+                <div id="map"></div>
+                <div class='map-overlay' id='legend'> <p>Positive Cases </p> </div>
+                <a href="javascript:void(0)" id="openbtn">
+                    <i class="fa fa-bars" onclick="openNav()"></i>
+                </a>
+            </div>
+            <div id="side-container">
+                <a href="javascript:void(0)" id="closebtn" onclick="closeNav()">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+                <div id='features'>
+                    <h2><b>2022 Influenza Statistics</b></h2>
+                    <div id='text-description'>
+                        <p>Click on a state!</p>
+                    </div>
+                </div>
+                <div id="chart-container">
+                    <canvas id="line-chart"></canvas>
+                </div> 
+                <div id="side-panel">
+                    <h3>Annual Influenza Data by State</h3>
+                    <table>
+                        <tr>
+                            <th>State <i id="name-button" class="fa fa-fw fa-sort"></i></th>
+                            <th>Deaths <i id="deaths-button" class="fa fa-fw fa-sort"></i></th>
+                            <th>Type A <i id="type-a-button" class="fa fa-fw fa-sort"></i></th>
+                            <th>Type B <i id="type-b-button" class="fa fa-fw fa-sort"></i></th>
+                        </tr>
+                    </table>
                 </div>
             </div>
-    
-            <div id="chart-container">
-                <canvas id="line-chart"></canvas>
-            </div> 
-
-            <div id="side-panel">
-                <h3>Annual Influenza Data by State</h3>
-                <table>
-                    <tr>
-                        <th>State <i id="name-button" class="fa fa-fw fa-sort"></i></th>
-                        <th>Deaths <i id="deaths-button" class="fa fa-fw fa-sort"></i></th>
-                        <th>Type A <i id="type-a-button" class="fa fa-fw fa-sort"></i></th>
-                        <th>Type B <i id="type-b-button" class="fa fa-fw fa-sort"></i></th>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        
-    </main>
-    <script src="js/main.js"></script>
-</body>
+        </main>
+        <script src="js/main.js"></script>
+    </body>
 </html>
