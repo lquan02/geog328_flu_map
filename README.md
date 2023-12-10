@@ -1,17 +1,17 @@
-### Title: 2022 Interactive Influenza Disease Map
+# Title: 2022 Interactive Influenza Disease Map
 
 
-### Project link
+## Project link
 
 [https://lquan02.github.io/geog382_flu_map/index.html](https://lquan02.github.io/geog382_flu_map/index.html) 
 
 
-### Project Description
+## Project Description
 
 The 2022 Interactive Influenza Disease Map project stands as a comprehensive initiative driven by primary data sources extracted from the CDC Weekly U.S. Influenza Surveillance Report, covering all 52 weeks of 2022. Our team meticulously curated two datasets, the first detailing flu cases categorized by Influenza types A and B reported by U.S. Clinical Laboratories, and the second documenting influenza-related deaths by state, sourced from the NCHS Mortality Surveillance. These two weekly datasets were combined as a single file and then aggregated by state, providing a robust foundation for a comprehensive annual influenza dataset for the year 2022.
 
 
-### Project Goals
+## Project Goals
 
 The primary goal of our project is to create a user-friendly and interactive map with a comprehensive visual representation of flu cases and related deaths in the United States for the year 2022. Building on the enriched datasets derived from the CDC, merged seamlessly with state geometries, our objective is to offer users not just a visual representation but a deeper understanding of the patterns and implications of flu activity across the nation.
 
@@ -22,7 +22,7 @@ The primary goal of our project is to create a user-friendly and interactive map
 **Empowering Informed Decision-Making:** The ultimate goal is to empower users with the knowledge to make informed decisions. Whether it's a public health official devising targeted interventions, a policymaker allocating resources, or an individual taking personal precautions, our project aims to equip users with the information necessary for proactive decision-making.
 
 
-### Project Features
+## Project Features
 
 At the core of our project lies an intricately designed interactive choropleth map, skillfully implemented through the Mapbox GL JS library. This dynamic map serves as a compelling visual representation, portraying the distribution of reported flu cases and influenza-related deaths with vibrant detail across each state in the United States. Users are granted a flexible and seamless navigation experience, empowered by built-in interactive features that facilitate an in-depth exploration of specific states.
 
@@ -33,7 +33,7 @@ The integration of geospatial and temporal data visualization into a single plat
 Our project is designed with a responsive layout, ensuring a smooth experience across various devices, including desktops, tablets, and smartphones. The responsive design enhances accessibility, allowing users to explore flu-related data anytime and anywhere. To promote a deeper understanding of influenza and its impact, the project incorporates resources from the CDC. This includes data from individual states categorized in a single data file.
 
 
-### Main Functions
+## Main Functions
 
 `state_weekly`: This function asynchronously fetches and processes weekly state-related JSON data from the **state-by-weeks-2022_keyed.json** file in the *assets* folder. It converts the response into a JavaScript object, known as **weekly_data**, likely organized by states. Following this, the function triggers the display of a line chart popup for the national level using `showLineChartPopup('National')`. This chart likely illustrates key metrics like death cases, Type A, and Type B data over 52 weeks, offering a comprehensive overview of nationwide trends in 2022.
 
@@ -56,7 +56,16 @@ Our project is designed with a responsive layout, ensuring a smooth experience a
 `closeNav`: The closeNav function hides the sidebar when the user interacts with the close button. Once the function is called, the element side-container is hidden, and the element openbtn is visible.
 
 
-### Data Sources
+
+## Screenshots
+
+![Picture of Map](https://lh3.googleusercontent.com/pw/ADCreHc-kIJprZln1bVRQyExJXWyqxr_ndMmdG-d9JosHhlUh-QVYzn6NrY48M8qLfKdSGDRnKjeCgIHxrw30BN2dSU1od-RauztdztxoLgswEpU12FlwBA=w2400)
+
+![Picture of data](https://lh3.googleusercontent.com/pw/ADCreHdfVDB7PzD_7uAregjXlef6UpGmHY9W9QP267_Ih8gn_ygtpXIMqn2if-mTNgAE7h9c7YZIc7VSQI0T8Rs2jJbAPm9te7sAuPp1g44aBNId3vnsMrw=w2400)
+
+
+
+## Data Sources
 
 All the influenza statistics are sourced from the Weekly U.S. Influenza Surveillance Report: [https://www.cdc.gov/flu/weekly/index.htm](https://www.cdc.gov/flu/weekly/index.htm)
 
@@ -68,8 +77,7 @@ The state geometry GeoJSON file is sourced from the data from GEOG 328 Lab 4: [h
 
  
 
-
-### Applied Libraries
+## Applied Libraries
 
 [MapboxGL CSS](https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css),
 
@@ -84,11 +92,10 @@ Mapbox [style overlay](https://docs.mapbox.com/api/maps/styles/) for the base ma
 [Github](https://github.com/) for static site hosting service
 
 
-### Acknowledgment
+
+## Acknowledgment
 
 This project would not be possible without the contribution of our group members:
-
-
 
 * Jolie Tran
 * Luong Quan
@@ -97,10 +104,3 @@ This project would not be possible without the contribution of our group members
 * Coby Daniel Williams-Gurian
 
 Together with the data sources, as well as the applied libraries mentioned above.
-
-
-### Screenshots
-
-![Picture of Map](https://lh3.googleusercontent.com/pw/ADCreHc-kIJprZln1bVRQyExJXWyqxr_ndMmdG-d9JosHhlUh-QVYzn6NrY48M8qLfKdSGDRnKjeCgIHxrw30BN2dSU1od-RauztdztxoLgswEpU12FlwBA=w2400)
-
-![Picture of data](https://lh3.googleusercontent.com/pw/ADCreHdfVDB7PzD_7uAregjXlef6UpGmHY9W9QP267_Ih8gn_ygtpXIMqn2if-mTNgAE7h9c7YZIc7VSQI0T8Rs2jJbAPm9te7sAuPp1g44aBNId3vnsMrw=w2400)
