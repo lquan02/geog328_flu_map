@@ -95,6 +95,10 @@ a.active {
   color: #fff;
 }
 
+a:hover {
+    color: #4a944b;
+}
+
 /**
 * Create a position for the map
 * on the page */
@@ -129,8 +133,8 @@ a.active {
     cursor: pointer;
 }
 
-#content-popup a:link:hover {
-    color: rgba(255, 255, 255, 1);
+#content-popup a:hover {
+    color: #4a944b;
 }
 
 
