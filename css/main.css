@@ -125,10 +125,14 @@ a.active {
 }
 
 #content-popup a:link, #content-popup a:visited {
-    color: (internal value);
     text-decoration: underline;
     cursor: pointer;
 }
+
+#content-popup a:link:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
 
 #map-container {
     flex-grow: 1;
