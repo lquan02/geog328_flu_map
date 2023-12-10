@@ -19,7 +19,7 @@ The primary goal of our project is to create a user-friendly and interactive map
 
 **Spatial and Temporal Analysis:** The interactive map is not merely a snapshot but a dynamic tool for spatial and temporal analysis. Users can delve into the ebb and flow of flu activity over the course of the year, discerning patterns and trends that might be obscured in static representations.
 
-**Empowering Informed Decision-Making: **The ultimate goal is to empower users with the knowledge to make informed decisions. Whether it's a public health official devising targeted interventions, a policymaker allocating resources, or an individual taking personal precautions, our project aims to equip users with the information necessary for proactive decision-making.
+**Empowering Informed Decision-Making:** The ultimate goal is to empower users with the knowledge to make informed decisions. Whether it's a public health official devising targeted interventions, a policymaker allocating resources, or an individual taking personal precautions, our project aims to equip users with the information necessary for proactive decision-making.
 
 
 ### Project Features
@@ -35,37 +35,34 @@ Our project is designed with a responsive layout, ensuring a smooth experience a
 
 ### Main Functions
 
-state_weekly: The state_weekly function asynchronously fetches and processes weekly state-related JSON data from the "state-by-weeks-2022_keyed.json" file. It converts the response into a JavaScript object, known as weekly_data, likely organized by states. Following this, the function triggers the display of a line chart popup for the national level using showLineChartPopup('National'). This chart likely illustrates key metrics like death cases, Type A, and Type B data over 52 weeks, offering a comprehensive overview of nationwide trends in 2022.
+`state_weekly`: This function asynchronously fetches and processes weekly state-related JSON data from the **state-by-weeks-2022_keyed.json** file in the *assets* folder. It converts the response into a JavaScript object, known as **weekly_data**, likely organized by states. Following this, the function triggers the display of a line chart popup for the national level using `showLineChartPopup('National')`. This chart likely illustrates key metrics like death cases, Type A, and Type B data over 52 weeks, offering a comprehensive overview of nationwide trends in 2022.
 
-showLineChartPopup: This function takes a stateName and generates a dynamic line chart using preloaded weekly_data. Extracting week and data metrics, it creates or updates a Chart.js chart on the HTML canvas 'line-chart'. The chart includes death cases and influenza type A and type B datasets with distinct styles and labels. The function ensures a clean update, offering customization options like responsiveness, interaction, and titles, presenting a visually appealing representation of weekly data for the specified state with a legend for dataset interpretation.
+`showLineChartPopup`: This function takes a stateName and generates a dynamic line chart using preloaded **weekly_data**. Extracting week and data metrics, it creates or updates a **Chart.js** chart on the HTML canvas *'line-chart'*. The chart includes death cases and influenza type A and type B datasets with distinct styles and labels. The function ensures a clean update, offering customization options like responsiveness, interaction, and titles, presenting a visually appealing representation of weekly data for the specified state with a legend for dataset interpretation.
 
-geojsonFetch:
+`geojsonFetch`: This function fetches the GeoJSON data related to flu statistics for each state in 2022. With the `loadingData()` function, it adds this data as a source to a Mapbox map and creates visualizations, including a fill layer representing positive cases with a color scale, state borders, and a legend for intuitive interpretation. The function also dynamically updates an HTML description of national or state-specific data based on mouse interactions, such as hover and click events on map features. Additionally, the function populates an HTML table with state-specific flu statistics and allows users to sort the table by state name, death cases, Type A cases, and Type B cases. 
 
-This function fetches the GeoJSON data related to flu statistics for each state in 2022. With the loadingData() function, it adds this data as a source to a Mapbox map and creates visualizations, including a fill layer representing positive cases with a color scale, state borders, and a legend for intuitive interpretation. The function also dynamically updates an HTML description of national or state-specific data based on mouse interactions, such as hover and click events on map features. Additionally, the function populates an HTML table with state-specific flu statistics and allows users to sort the table by state name, death cases, Type A cases, and Type B cases. 
+`sortToggle`: A function that enables switching between ascending and descending sorting on the sorting panel.
 
-sortToggle: A function that enables switching between ascending and descending sorting on the sorting panel.
+`sortTable`: A function that turns the data from the table element into a sortable array, passes it to `quickSort()`, and then turns it back into the original format.
 
-sortTable: A function that turns the data from the table element into a sortable array, passes it to quickSort(), and then turns it back into the original format.
+`quickSort`: An implementation of the recursive quicksort algorithm that works for ascending and descending as well as for string and float data for the purposes of the four types of sorting in the sorting panel.
 
-quickSort: An implementation of the recursive quicksort algorithm that works for ascending and descending as well as for string and float data for the purposes of the four types of sorting in the sorting panel.
+`openPopup`: This function is responsible for triggering the display of popup windows in response to user actions. When a user clicks on a specific state, this function will generate and display a popup containing relevant data for visualization. Similarly, if a user clicks on an icon, the function will present a popup with pertinent information for the user to view.
 
-openPopup: This function is responsible for triggering the display of popup windows in response to user actions. When a user clicks on a specific state, this function will generate and display a popup containing relevant data for visualization. Similarly, if a user clicks on an icon, the function will present a popup with pertinent information for the user to view.
+`closePopup`: This function serves the purpose of closing any open popup windows. When invoked, it effectively dismisses the currently displayed popup, removing the information or data visualization from the screen. This is typically triggered when the user clicks on a close button within the popup or clicks outside the popup area, signaling that they have finished viewing the information.
 
-closePopup: This function serves the purpose of closing any open popup windows. When invoked, it effectively dismisses the currently displayed popup, removing the information or data visualization from the screen. This is typically triggered when the user clicks on a close button within the popup or clicks outside the popup area, signaling that they have finished viewing the information.
+`openNav`: A function that changes the displays of two HTML elements when called. It makes the element side-container visible, while hiding the element openbtn.
 
-openNav: A function that changes the displays of two HTML elements when called. It makes the element side-container visible, while hiding the element openbtn.
-
-closeNav: The closeNav function hides the sidebar when the user interacts with the close button. Once the function is called, the element side-container is hidden, and the element openbtn is visible.
+`closeNav`: The closeNav function hides the sidebar when the user interacts with the close button. Once the function is called, the element side-container is hidden, and the element openbtn is visible.
 
 
 ### Data Sources
 
 All the influenza statistics are sourced from the Weekly U.S. Influenza Surveillance Report: [https://www.cdc.gov/flu/weekly/index.htm](https://www.cdc.gov/flu/weekly/index.htm)
 
+ * The positive cases by type are the results of tests performed by clinical laboratories nationwide
+ * The Influenza-death related case sourced from the National Center for Health Statistics (NCHS) Mortality Surveillance
 
-
-* The positive cases by type are the results of tests performed by clinical laboratories nationwide
-* The Influenza-death related case sourced from the National Center for Health Statistics (NCHS) Mortality Surveillance
 
 The state geometry GeoJSON file is sourced from the data from GEOG 328 Lab 4: [https://github.com/jakobzhao/geog328/blob/main/labs/lab04/assets/state_data.geojson](https://github.com/jakobzhao/geog328/blob/main/labs/lab04/assets/state_data.geojson) 
 
