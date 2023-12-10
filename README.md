@@ -79,17 +79,17 @@ The state geometry GeoJSON file is sourced from the data from GEOG 328 Lab 4: [h
 
 ## Applied Libraries
 
-[MapboxGL CSS](https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css),
+* [MapboxGL CSS](https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css),
 
-[MapboxGL JS](https://docs.mapbox.com/mapbox-gl-js/api/),
+* [MapboxGL JS](https://docs.mapbox.com/mapbox-gl-js/api/),
 
-Mapbox [style overlay](https://docs.mapbox.com/api/maps/styles/) for the base map,
+* [Mapbox style overlay](https://docs.mapbox.com/api/maps/styles/) for the base map,
 
-[ChartJS](https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js) for interactive charts,
+* [ChartJS](https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js) for interactive charts,
 
-[Font Awesome](https://fontawesome.com/) for icons, and 
+* [Font Awesome](https://fontawesome.com/) for icons, and 
 
-[Github](https://github.com/) for static site hosting service
+* [Github](https://github.com/) for static site hosting service
 
 
 
