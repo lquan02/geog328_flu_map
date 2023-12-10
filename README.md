@@ -1,4 +1,4 @@
-# Title: 2022 Interactive Influenza Disease Map
+# 2022 Interactive Influenza Disease Map
 
 
 ## Project link
