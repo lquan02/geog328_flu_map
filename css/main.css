@@ -118,7 +118,7 @@ a.active {
     width: 600px;
     height: 95%;
     overflow-y: auto;
-    background-color: rgba(228, 228, 228, 0.7);
+    background-color: rgba(228, 228, 228, 0.9);
     display: none;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
