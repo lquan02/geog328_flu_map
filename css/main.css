@@ -23,11 +23,11 @@ p {
 /**
 Nav bar styling
 */
-ul {
+.nav__bar ul {
     list-style: none;
 }
   
-a {
+.nav__bar a {
     text-decoration: none;
     color: inherit;
 }
@@ -124,8 +124,8 @@ a.active {
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-#description-popup a:link, a:visited ,
-#acknowledge-popup a:link, a:visited  {
+#description-popup a:link, #description-popup a:visited ,
+#acknowledge-popup a:link, #acknowledge-popup a:visited  {
     color: (internal value);
     text-decoration: underline;
     cursor: auto;
