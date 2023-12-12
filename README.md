@@ -3,7 +3,7 @@
 
 ## Project link
 
-[https://lquan02.github.io/geog382_flu_map/index.html](https://lquan02.github.io/geog382_flu_map/index.html) 
+[https://lquan02.github.io/geog328_flu_map/](https://lquan02.github.io/geog328_flu_map/) 
 
 
 ## Project Description
